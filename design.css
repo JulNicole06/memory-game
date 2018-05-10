@@ -15,6 +15,7 @@ body{
 	margin: auto;
 	max-height: 700px;
 	max-width: 700px;
+	perspective: 500px;
 	width: 95%;
 }
 
@@ -28,14 +29,17 @@ body{
 	justify-content: center;
 	max-height: 140px;
 	max-width: 140px;
+	transform-style: preserve-3d;
+  	transition: 1s ease-in;
 	width: 20%;
 }
 
 .flipped {
-	display: none;
+	transform: rotateY(180deg);
 }
 
-.front {
+.icon {
+	backface-visibility: hidden;
 	width: 30%;
 }
 
