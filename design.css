@@ -3,6 +3,7 @@ body{
 	margin: auto;
 	width: 100%;
 }
+
 #gameboard {
 	align-items: center;
 	background-color: #703d6f;
@@ -41,6 +42,20 @@ body{
 .icon {
 	backface-visibility: hidden;
 	width: 30%;
+}
+
+.button{
+	display: flex;
+	justify-content: center;
+}
+
+#shuffle-button {
+	border: 1px black solid;
+	border-radius: 5px;
+	cursor: pointer;
+	height: 50px;
+	margin-top: 10px;
+	text-align: center;
 }
 
 #image_attribution {
