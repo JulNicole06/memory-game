@@ -1,0 +1,47 @@
+html,
+body{
+	margin: auto;
+	width: 100%;
+}
+#gameboard {
+	align-items: center;
+	background-color: #703d6f;
+	border: 1px black solid;
+	border-radius: 5px;
+	display: flex;
+	flex-flow: row wrap;
+	height: 95vmin;
+	justify-content: space-around;
+	margin: auto;
+	max-height: 700px;
+	max-width: 700px;
+	width: 95%;
+}
+
+.card {
+	align-items: center;
+	background-color: #b59db4;
+	border: 1px black solid;
+	border-radius: 5px;
+	display: flex;
+	height: 20vmin;
+	justify-content: center;
+	max-height: 140px;
+	max-width: 140px;
+	width: 20%;
+}
+
+.flipped {
+	display: none;
+}
+
+.front {
+	width: 30%;
+}
+
+#image_attribution {
+	font-family: Helvetica;
+	font-size: 12px;
+	margin-top: 10px;
+	text-align: center;
+}
