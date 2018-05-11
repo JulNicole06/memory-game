@@ -1,4 +1,3 @@
-
 const cards = document.querySelectorAll('.card');
 
 /* Game Logic */
@@ -6,6 +5,7 @@ const cards = document.querySelectorAll('.card');
 function take_a_turn(){
 	cards.forEach(function(card){
 		card.addEventListener("click", reveal_card);
+		card.addEventListener("click", prevent_reclick);
 	});
 
 	i = 1;
@@ -28,6 +28,10 @@ function take_a_turn(){
 			}
 			remove_event_listeners();
 		}
+	}
+
+	function prevent_reclick(){
+		this.removeEventListener("click", reveal_card);
 	}
 
 	function remove_event_listeners(){
