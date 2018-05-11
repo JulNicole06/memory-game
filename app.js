@@ -1,15 +1,43 @@
-/* Animation to flip cards when clicked */
 
 const cards = document.querySelectorAll('.card');
 
-cards.forEach(function(card){
-	card.addEventListener("click", function(){
-		card.classList.toggle("flipped");
-	})
-})
+/* Game Logic */
 
+function take_a_turn(){
+	cards.forEach(function(card){
+		card.addEventListener("click", reveal_card);
+	});
 
-/* Randmize card display order with "Shuffle Deck" button */
+	i = 1;
+	let card1, card2;
+
+	function reveal_card() {
+		if(i==1){
+			this.classList.toggle("flipped");
+			card1 = this.firstElementChild.classList.value;
+			i = i + 1;
+		}
+		else if(i==2){
+			this.classList.toggle("flipped");
+			card2 = this.firstElementChild.classList.value;
+			if(card1 == card2){
+				console.log("MATCH!");
+			}
+			else{
+				console.log("WRONG ANSWER!");
+			}
+			remove_event_listeners();
+		}
+	}
+
+	function remove_event_listeners(){
+		cards.forEach(function(card){
+			card.removeEventListener("click", reveal_card);
+		});
+	}
+}
+
+/* Randomize card display order with "Shuffle Deck" button */
 
 const shuffleButton = document.querySelector('#shuffle-button');
 let order = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
@@ -37,3 +65,6 @@ function shuffle(array){
 	}
 	return array;
 }
+
+
+take_a_turn();

@@ -44,6 +44,10 @@ body{
 	width: 30%;
 }
 
+.removed {
+	visibility: hidden;
+}
+
 .button{
 	display: flex;
 	justify-content: center;
