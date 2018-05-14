@@ -39,6 +39,21 @@ body{
 	transform: rotateY(180deg);
 }
 
+@keyframes wrong_answer{
+	from {
+		transform: rotate(360deg)
+	}
+    to {
+    	background-color: red;
+    }
+}
+
+.mismatch {
+	animation-name: wrong_answer;
+	animation-delay: 1s;
+	animation-duration: 1s;
+}
+
 .icon {
 	backface-visibility: hidden;
 	width: 30%;

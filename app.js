@@ -9,22 +9,28 @@ function take_a_turn(){
 	});
 
 	i = 1;
-	let card1, card2;
+	let card1, card1value, card2, card2value;
 
 	function reveal_card() {
 		if(i==1){
-			this.classList.toggle("flipped");
-			card1 = this.firstElementChild.classList.value;
+			card1 = this;
+			card1.classList.toggle("flipped");
+			card1value = card1.firstElementChild.classList.value;
 			i = i + 1;
 		}
 		else if(i==2){
-			this.classList.toggle("flipped");
-			card2 = this.firstElementChild.classList.value;
-			if(card1 == card2){
+			card2 = this;
+			card2.classList.toggle("flipped");
+			card2value = card2.firstElementChild.classList.value;
+			if(card1value == card2value){
 				console.log("MATCH!");
 			}
 			else{
 				console.log("WRONG ANSWER!");
+				setTimeout(function(){
+					card1.classList.toggle("mismatch");
+					card2.classList.toggle("mismatch");
+				}, 0);
 			}
 			remove_event_listeners();
 		}
@@ -34,12 +40,14 @@ function take_a_turn(){
 		this.removeEventListener("click", reveal_card);
 	}
 
+
 	function remove_event_listeners(){
 		cards.forEach(function(card){
 			card.removeEventListener("click", reveal_card);
 		});
 	}
 }
+
 
 /* Randomize card display order with "Shuffle Deck" button */
 
