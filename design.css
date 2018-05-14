@@ -39,6 +39,10 @@ body{
 	transform: rotateY(180deg);
 }
 
+.matched {
+	visibility: hidden;
+}
+
 @keyframes wrong_answer{
 	from {
 		transform: rotate(360deg)

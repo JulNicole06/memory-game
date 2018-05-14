@@ -24,6 +24,10 @@ function take_a_turn(){
 			card2value = card2.firstElementChild.classList.value;
 			if(card1value == card2value){
 				console.log("MATCH!");
+				setTimeout(function(){
+					card1.classList.toggle("matched");
+					card2.classList.toggle("matched");
+				}, 1000);
 			}
 			else{
 				console.log("WRONG ANSWER!");
@@ -33,6 +37,12 @@ function take_a_turn(){
 				}, 0);
 			}
 			remove_event_listeners();
+
+			setTimeout(function(){
+				cards.forEach(function(card){
+				card.classList.replace("mismatch", "flipped");
+				})
+			}, 2000);
 		}
 	}
 
