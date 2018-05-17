@@ -1,24 +1,23 @@
-const cards = document.querySelectorAll('.card');
-
 /* Game Logic */
 
-function take_a_turn(){
+function start_game(cards){
 	cards.forEach(function(card){
 		card.addEventListener("click", reveal_card);
-		card.addEventListener("click", prevent_reclick);
 	});
 
 	i = 1;
 	let card1, card1value, card2, card2value;
 
 	function reveal_card() {
+		prevent_reclick(this);
 		if(i==1){
+			i = i + 1;
 			card1 = this;
 			card1.classList.toggle("flipped");
 			card1value = card1.firstElementChild.classList.value;
-			i = i + 1;
 		}
 		else if(i==2){
+			i = 1;
 			card2 = this;
 			card2.classList.toggle("flipped");
 			card2value = card2.firstElementChild.classList.value;
@@ -31,30 +30,27 @@ function take_a_turn(){
 			}
 			else{
 				console.log("WRONG ANSWER!");
+				return_event_listener(card1);
+					return_event_listener(card2);
 				setTimeout(function(){
 					card1.classList.toggle("mismatch");
 					card2.classList.toggle("mismatch");
 				}, 0);
+				setTimeout(function(){
+					cards.forEach(function(card){
+						card.classList.replace("mismatch", "flipped");
+					})
+				}, 2000);
 			}
-			remove_event_listeners();
-
-			setTimeout(function(){
-				cards.forEach(function(card){
-				card.classList.replace("mismatch", "flipped");
-				})
-			}, 2000);
 		}
 	}
 
-	function prevent_reclick(){
-		this.removeEventListener("click", reveal_card);
+	function prevent_reclick(card){
+		card.removeEventListener("click", reveal_card);
 	}
 
-
-	function remove_event_listeners(){
-		cards.forEach(function(card){
-			card.removeEventListener("click", reveal_card);
-		});
+	function return_event_listener(card){
+		card.addEventListener("click", reveal_card);
 	}
 }
 
@@ -88,5 +84,6 @@ function shuffle(array){
 	return array;
 }
 
+let cards = document.querySelectorAll('.card');
 
-take_a_turn();
+start_game(cards);
