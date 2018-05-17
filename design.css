@@ -72,7 +72,7 @@ body{
 	justify-content: center;
 }
 
-#shuffle-button {
+#new-game-button {
 	border: 1px black solid;
 	border-radius: 5px;
 	cursor: pointer;
