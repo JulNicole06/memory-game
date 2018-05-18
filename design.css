@@ -4,6 +4,17 @@ body{
 	width: 100%;
 }
 
+#scoreboard {
+	align-items: center;
+	border: 1px black solid;
+	display: flex;
+	height: 5vmin;
+	justify-content: space-around;
+	margin: 10px auto 10px auto;
+	max-width: 350px;
+	width: 50%;
+}
+
 #gameboard {
 	align-items: center;
 	background-color: #703d6f;
@@ -11,7 +22,7 @@ body{
 	border-radius: 5px;
 	display: flex;
 	flex-flow: row wrap;
-	height: 95vmin;
+	height: 90vmin;
 	justify-content: space-around;
 	margin: auto;
 	max-height: 700px;
