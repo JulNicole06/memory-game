@@ -5,14 +5,30 @@ body{
 }
 
 #scoreboard {
+	display: flex;
+	flex-flow: row;
+	height: 5vmin;
+	margin: 10px auto 10px auto;
+	width: 95%;
+}
+
+#star-rating {
 	align-items: center;
 	border: 1px black solid;
 	display: flex;
-	height: 5vmin;
+	height: 100%;
 	justify-content: space-around;
-	margin: 10px auto 10px auto;
-	max-width: 350px;
 	width: 50%;
+}
+
+#move-counter {
+	align-items: center;
+	border: 1px black solid;
+	display: flex;
+	height: 100%;
+	justify-content: center;
+	margin-left: 1%;
+	width: 30%;
 }
 
 #gameboard {

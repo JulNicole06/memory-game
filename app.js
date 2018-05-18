@@ -3,9 +3,10 @@
 let card1, card1value, card2, card2value;
 let cards = document.querySelectorAll('.card');
 let stars = document.querySelectorAll('.fa-star')
-let c = 1;
+let cardCount = 1;
 let score = 8;
-let matches = 0;
+let moves = 0;
+let moveCounter = document.querySelector("#moves");
 
 cards.forEach(function(card){
 		card.addEventListener("click", reveal_card);
@@ -13,17 +14,19 @@ cards.forEach(function(card){
 
 function reveal_card() {
 	prevent_reclick(this);
-	if(c==1){
-		c = c + 1;
+	if(cardCount==1){
+		cardCount = cardCount + 1;
 		card1 = this;
 		card1.classList.toggle("flipped");
 		card1value = card1.firstElementChild.classList.value;
 	}
-	else if(c==2){
-		c = 1;
+	else if(cardCount==2){
+		cardCount = 1;
 		card2 = this;
 		card2.classList.toggle("flipped");
 		card2value = card2.firstElementChild.classList.value;
+		moves += 1;
+		moveCounter.textContent = ("Moves: " + moves);
 		if(card1value == card2value){
 			matches += 1;
 			setTimeout(function(){
@@ -74,6 +77,8 @@ let order = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
 function new_game() {
 	let i = 0;
 	score = 8;
+	moves = 0;
+	moveCounter.textContent = ("Moves: 0");
 	order = shuffle(order)
 	cards.forEach(function(card) {
 		/* reset class lists for event listeners*/
