@@ -1,18 +1,71 @@
-/* Game Logic */
-
+/* Declare variables */
+let score, moves, gameStart, startTime, elapsedTime,
+	endTime, cardCount, deckCount;
+let stars = document.querySelectorAll('.fa-star')
+let moveCounter = document.querySelector("#moves");
+let time = document.querySelector("#time");
+let order = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
 let card1, card1value, card2, card2value;
 let cards = document.querySelectorAll('.card');
-let stars = document.querySelectorAll('.fa-star')
-let cardCount = 1;
-let score = 8;
-let moves = 0;
-let moveCounter = document.querySelector("#moves");
+const newGameButton = document.querySelector('#new-game-button');
+let timer = null;
+/* Add event listeners */
+newGameButton.addEventListener("click", new_game);
 
 cards.forEach(function(card){
 		card.addEventListener("click", reveal_card);
 	});
 
+/* Start or Reset Game */
+function new_game() {
+	if (timer !== null) {
+		end_game();
+	}
+	/* Set or Reset scoreboard */
+	gameStart = true;
+	startTime = new Date();
+	score = 8;
+	moves = 0;
+	moveCounter.textContent = ("Moves: 0");
+	stars.forEach(function(star){
+		star.classList.replace("far", "fas")
+	})
+	cardCount = 1;
+	deckCount = 16;
+
+	/* Shuffle deck */
+	let i = 0;
+	order = shuffle(order)
+	cards.forEach(function(card) {
+		/* reset class lists for event listeners*/
+		card.setAttribute("class", "card flipped");
+		card.addEventListener("click", reveal_card);
+		card.style.order = order[i];
+		i += 1;
+	})
+}
+
+/* Fisher-Yates Shuffle */
+function shuffle(array){
+	let currentIndex = array.length, temporaryValue, randomIndex;
+	while(0 !== currentIndex) {
+		randomIndex = Math.floor(Math.random() * currentIndex);
+		currentIndex -=1;
+
+		temporaryValue = array[currentIndex];
+		array[currentIndex] = array[randomIndex];
+		array[randomIndex] = temporaryValue;
+	}
+	return array;
+}
+
+/* Game logic for matching / mismatched cards */
 function reveal_card() {
+	if(gameStart == true){
+		startTime = Date.now();
+		start_timer();
+	}
+
 	prevent_reclick(this);
 	if(cardCount==1){
 		cardCount = cardCount + 1;
@@ -28,7 +81,10 @@ function reveal_card() {
 		moves += 1;
 		moveCounter.textContent = ("Moves: " + moves);
 		if(card1value == card2value){
-			matches += 1;
+			deckCount -= 2;
+			if(deckCount == 0) {
+				end_game();
+			}
 			setTimeout(function(){
 				card1.classList.toggle("matched");
 				card2.classList.toggle("matched");
@@ -65,50 +121,38 @@ function remove_star(index) {
 	star.classList.replace("fas", "far");
 }
 
-/* Reset the game with "New Game" button */
-
-const newGameButton = document.querySelector('#new-game-button');
-
-newGameButton.addEventListener("click", new_game);
-
-
-let order = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
-
-function new_game() {
-	let i = 0;
-	score = 8;
-	moves = 0;
-	moveCounter.textContent = ("Moves: 0");
-	order = shuffle(order)
-	cards.forEach(function(card) {
-		/* reset class lists for event listeners*/
-		card.setAttribute("class", "card flipped");
-		card.addEventListener("click", reveal_card);
-		card.style.order = order[i];
-		i += 1;
-	})
-	stars.forEach(function(star){
-		star.classList.replace("far", "fas")
-	})
-	c = 1;
-
-	/* Fisher-Yates Shuffle */
-
-	function shuffle(array){
-		let currentIndex = array.length, temporaryValue, randomIndex;
-		while(0 !== currentIndex) {
-			randomIndex = Math.floor(Math.random() * currentIndex);
-			currentIndex -=1;
-
-			temporaryValue = array[currentIndex];
-			array[currentIndex] = array[randomIndex];
-			array[randomIndex] = temporaryValue;
-		}
-		return array;
-	}
+function start_timer() {
+	gameStart = false;
+	timer = setInterval(add_second, 1000);
+	startTime = new Date();
 }
 
-/* shuffle cards for initial game */
+function end_game() {
+	clearInterval(timer);
+
+	/* Set timer to null to avoid automatic restart before 1st click */
+	timer = null;
+	time.textContent = "00:00"
+}
+
+function add_second() {
+	endTime = new Date();
+	elapsedTime = (endTime - startTime);
+	time.textContent = format_time(elapsedTime);
+}
+
+function format_time(elapsedTime) {
+	let minutes = new Date(elapsedTime).getUTCMinutes();
+	let seconds = new Date(elapsedTime).getUTCSeconds();
+	return add_zero(minutes)+":"+add_zero(seconds);
+}
+
+function add_zero(number) {
+	if(number < 10){
+		number = "0"+number;
+	}
+	return number;
+}
 
 new_game();
 
