@@ -1,5 +1,5 @@
 /* Declare variables */
-let score, moves, gameStart, startTime, elapsedTime,
+let mismatch, moves, gameStart, startTime, elapsedTime,
 	endTime, minutes, seconds, cardCount, deckCount;
 let stars = document.querySelectorAll('.fa-star')
 let moveCounter = document.querySelector("#moves");
@@ -33,7 +33,7 @@ function new_game() {
 	gameStart = true;
 	startTime = new Date();
 	time.textContent = "00:00"
-	score = 8;
+	mismatch = 0;
 	moves = 0;
 	moveCounter.textContent = ("Moves: 0");
 	stars.forEach(function(star){
@@ -100,7 +100,7 @@ function reveal_card() {
 			}, 1000);
 		}
 		else{
-			score -= 1;
+			mismatch += 1;
 			return_event_listener(card1);
 			return_event_listener(card2);
 			setTimeout(function(){
@@ -111,7 +111,7 @@ function reveal_card() {
 				cards.forEach(function(card){
 					card.classList.replace("mismatch", "flipped");
 				})
-				remove_star(score);
+				remove_star(mismatch);
 			}, 2000);
 		}
 	}
@@ -125,8 +125,17 @@ function return_event_listener(card){
 	card.addEventListener("click", reveal_card);
 }
 
-function remove_star(index) {
-	let star = stars[index];
+function remove_star(mismatch) {
+	let index, star;
+
+	if(mismatch==4){
+		index = 2;
+	}else if(mismatch==10){
+		index = 1
+	}else{
+		return;
+	}
+	star = stars[index];
 	star.classList.replace("fas", "far");
 }
 
@@ -137,6 +146,8 @@ function start_timer() {
 }
 
 function end_game() {
+	let starsRemaining = document.querySelectorAll(".fas").length;
+	console.log(starsRemaining);
 	clearInterval(timer);
 
 	/* Set timer to null to avoid automatic restart before 1st click */
@@ -144,11 +155,11 @@ function end_game() {
 
 	/* Fill in results on congrats modal */
 	finalTime.textContent = "It took you " + minutes + " \
-		minute(s)" + seconds + " second(s)";
+		minute(s) " + seconds + " second(s)";
 
 	finalMoves.textContent = "and " + moves + " moves to match all cards";
 
-	finalStars.textContent = "with a final star rating of " + score;
+	finalStars.textContent = "with a final star rating of " + starsRemaining;
 
 	/* Show congrats modal */
 	congratsPopup.style.display = 'block';
