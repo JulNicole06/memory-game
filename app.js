@@ -1,6 +1,6 @@
 /* Declare variables */
 let score, moves, gameStart, startTime, elapsedTime,
-	endTime, cardCount, deckCount;
+	endTime, minutes, seconds, cardCount, deckCount;
 let stars = document.querySelectorAll('.fa-star')
 let moveCounter = document.querySelector("#moves");
 let time = document.querySelector("#time");
@@ -9,6 +9,10 @@ let card1, card1value, card2, card2value;
 let cards = document.querySelectorAll('.card');
 const newGameButton = document.querySelector('#new-game-button');
 let timer = null;
+let finalTime = document.querySelector("#end-time");
+let finalMoves = document.querySelector("#end-moves");
+let finalStars = document.querySelector("#end-stars");
+let congratsPopup = document.querySelector("#congrats-modal");
 /* Add event listeners */
 newGameButton.addEventListener("click", new_game);
 
@@ -21,9 +25,14 @@ function new_game() {
 	if (timer !== null) {
 		end_game();
 	}
+
+	/* Show congrats modal */
+	congratsPopup.style.display = 'none';
+
 	/* Set or Reset scoreboard */
 	gameStart = true;
 	startTime = new Date();
+	time.textContent = "00:00"
 	score = 8;
 	moves = 0;
 	moveCounter.textContent = ("Moves: 0");
@@ -132,7 +141,17 @@ function end_game() {
 
 	/* Set timer to null to avoid automatic restart before 1st click */
 	timer = null;
-	time.textContent = "00:00"
+
+	/* Fill in results on congrats modal */
+	finalTime.textContent = "It took you " + minutes + " \
+		minute(s)" + seconds + " second(s)";
+
+	finalMoves.textContent = "and " + moves + " moves to match all cards";
+
+	finalStars.textContent = "with a final star rating of " + score;
+
+	/* Show congrats modal */
+	congratsPopup.style.display = 'block';
 }
 
 function add_second() {
@@ -142,8 +161,8 @@ function add_second() {
 }
 
 function format_time(elapsedTime) {
-	let minutes = new Date(elapsedTime).getUTCMinutes();
-	let seconds = new Date(elapsedTime).getUTCSeconds();
+	minutes = new Date(elapsedTime).getUTCMinutes();
+	seconds = new Date(elapsedTime).getUTCSeconds();
 	return add_zero(minutes)+":"+add_zero(seconds);
 }
 
