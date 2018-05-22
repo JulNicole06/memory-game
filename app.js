@@ -35,7 +35,7 @@ function new_game() {
 	time.textContent = "00:00"
 	mismatch = 0;
 	moves = 0;
-	moveCounter.textContent = ("Moves: 0");
+	moveCounter.textContent = ("0");
 	stars.forEach(function(star){
 		star.classList.replace("far", "fas")
 	})
@@ -88,7 +88,7 @@ function reveal_card() {
 		card2.classList.toggle("flipped");
 		card2value = card2.firstElementChild.classList.value;
 		moves += 1;
-		moveCounter.textContent = ("Moves: " + moves);
+		moveCounter.textContent = (moves);
 		if(card1value == card2value){
 			deckCount -= 2;
 			if(deckCount == 0) {
@@ -146,23 +146,24 @@ function start_timer() {
 }
 
 function end_game() {
-	let starsRemaining = document.querySelectorAll(".fas").length;
-	console.log(starsRemaining);
-	clearInterval(timer);
+	let starsRemaining = 3 - document.querySelectorAll(".far").length;
+	let time = document.querySelector("#timer").textContent;
 
 	/* Set timer to null to avoid automatic restart before 1st click */
+	clearInterval(timer);
 	timer = null;
 
 	/* Fill in results on congrats modal */
-	finalTime.textContent = "It took you " + minutes + " \
-		minute(s) " + seconds + " second(s)";
+	finalTime.textContent = time + " minutes";
 
-	finalMoves.textContent = "and " + moves + " moves to match all cards";
+	finalMoves.textContent = moves + " moves";
 
-	finalStars.textContent = "with a final star rating of " + starsRemaining;
+	finalStars.textContent = starsRemaining + " stars";
 
 	/* Show congrats modal */
-	congratsPopup.style.display = 'block';
+	setTimeout(function() {
+		congratsPopup.style.display = 'block';
+	}, 2000);
 }
 
 function add_second() {

@@ -1,80 +1,87 @@
-html,
+/* viewport */
+
 body {
-	align-items: center;
-	display: flex;
-	flex-flow: column;
+	background-color: #ededed;
+	font-family: helvetica;
 	justify-content: center;
 	margin: auto;
-	width: 100%;
 }
 
-#scoreboard {
-	display: flex;
-	flex-flow: row;
-	height: 5vmin;
-	margin: 10px auto 10px auto;
-	max-width: 700px;
-	width: 95%;
-}
+/* flex containers */
 
-#star-rating {
-	align-items: center;
-	border: 1px black solid;
-	display: flex;
-	height: 100%;
-	justify-content: space-around;
-	width: 50%;
-}
-
-#move-counter {
-	align-items: center;
-	border: 1px black solid;
-	display: flex;
-	height: 100%;
-	justify-content: center;
-	margin-left: 1%;
-	width: 25%;
-}
-
+body,
+#gameboard,
+.card,
+#scoreboard,
+#star-rating,
+#move-counter,
 #timer {
 	align-items: center;
-	border: 1px black solid;
-	display: flex;
-	height: 100%;
-	justify-content: center;
-	margin-left: 1%;
-	width: calc(23% - 6px);
-}
-
-#gameboard {
-	align-items: center;
-	background-color: #703d6f;
-	border: 1px black solid;
 	border-radius: 5px;
 	display: flex;
 	flex-flow: row wrap;
-	height: 90vmin;
 	justify-content: space-around;
-	margin: auto;
-	max-height: 700px;
-	max-width: 700px;
+}
+
+/* headers */
+
+h1,
+h4 {
+	margin: 10px 0 0 0;
+	text-align: center;
+	width: 100%;
+}
+
+/* scoreboard */
+
+#scoreboard {
+	background-image: url("https://vignette.wikia.nocookie.net/legominifiguresonline/images/e/eb/Interface_Header-background.png/revision/latest?cb=20141006074432");
+	box-shadow: 3px 3px 3px #374149;
+	height: 10vmin;
+	margin-top: 10px;
+	max-width: 650px;
+	width: 95vmin;
+}
+
+#star-rating,
+#move-counter,
+#timer {
+	background-color: #79b6ea;
+	height: 8vmin;
+	width: 30%;
+}
+
+.fa-star {
+	color: #fff054;
+}
+
+/* gameboard */
+
+#gameboard {
+	background-image: url("https://vignette.wikia.nocookie.net/legominifiguresonline/images/e/eb/Interface_Header-background.png/revision/latest?cb=20141006074432");
+	box-shadow: 3px 3px 3px #374149;
+	height: 115vmin;
+	margin: 10px auto 10px auto;
+	max-height: 500px;
+	max-width: 650px;
 	perspective: 500px;
-	width: 95%;
+	width: 95vmin;
 }
 
 .card {
-	align-items: center;
-	background-color: #b59db4;
-	border: 1px black solid;
-	border-radius: 5px;
-	display: flex;
-	height: 20vmin;
-	justify-content: center;
-	max-height: 140px;
-	max-width: 140px;
+	background-color: #79b6ea;
+	box-shadow: 3px 3px 3px #374149;
+	height: calc(23% - 2px);
 	transform-style: preserve-3d;
   	transition: 1s ease-in;
-	width: 20%;
+	width: calc(23% - 2px);
+}
+
+/* card actions */
+
+.icon {
+	backface-visibility: hidden;
+	width: 30%;
 }
 
 .flipped {
@@ -85,7 +92,7 @@ body {
 	visibility: hidden;
 }
 
-@keyframes wrong_answer{
+@keyframes wrong_answer {
 	from {
 		transform: rotate(360deg)
 	}
@@ -100,46 +107,74 @@ body {
 	animation-duration: 1s;
 }
 
-.icon {
-	backface-visibility: hidden;
-	width: 30%;
-}
-
-.removed {
-	visibility: hidden;
-}
-
-.button{
-	display: flex;
-	justify-content: center;
-}
+/* game reset button */
 
 #new-game-button {
-	border: 1px black solid;
+	background-color: #bccce0;
+	box-shadow: 3px 3px 3px #374149;
+	border: 0;
 	border-radius: 5px;
-	cursor: pointer;
-	height: 50px;
-	margin-top: 10px;
-	text-align: center;
+	padding: 1em;
+	width: 15vmin;
 }
 
+/* congratulations pop-up modal */
+
 #congrats-modal {
-	background-color: #e0dbdb;
+	background-color: #ffffff;
+	background-image: url("./images/fireworks.gif");
+	background-size: 350px;
+	box-shadow: 3px 3px 3px #374149;
 	border-radius: 10px;
-	height: 50vmin;
-	margin: auto;
+	height: 300px;
 	position: fixed;
-	width: 90%;
+	text-align: center;
+	width: 300px;
 	z-index: 1;
 }
 
-.modal-content {
-	text-align: center;
+.modal-title {
+	font-weight: bolder;
 }
 
-#image-attribution {
-	font-family: Helvetica;
-	font-size: 12px;
-	margin-top: 10px;
-	text-align: center;
+.modal-content {
+	font-size: 15px;
+	width: 100%;
+}
+
+/* media query */
+
+@media screen and (min-width: 680px) {
+	body {
+		max-width: 650px;
+	}
+
+	#gameboard {
+		height: 80vmin;
+		width: 75%;
+	}
+
+	#scoreboard {
+		align-self: flex-start;
+		height: 80vmin;
+		max-height: 500px;
+		width: 23%;
+	}
+
+	#star-rating,
+	#move-counter,
+	#timer {
+		height: 25vmin;
+		max-height: 150px;
+		width: 90%;
+	}
+
+	#congrats-modal {
+		height: 300px;
+		width: 400px;
+	}
+
+	.modal-content {
+		font-size: 20px;
+	}
 }

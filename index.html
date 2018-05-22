@@ -2,13 +2,17 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Memory Game</title>
+		<title>Concentration</title>
 		<link rel="stylesheet" href="./design.css">
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 	</head>
 
 	<body>
+		<h1>Memory Game</h1>
+
+		<h4>Click any card to begin</h4>
+
 		<div id="scoreboard">
 			<div id="star-rating">
 				<i class="fas fa-star"></i>
@@ -17,7 +21,7 @@
 			</div>
 
 			<div id="move-counter">
-				<p id="moves">Moves: 0</p>
+				<p id="moves"></p>
 			</div>
 
 			<div id="timer">
@@ -91,20 +95,17 @@
 			</div>
 		</div>
 
-		<div class="button">
-			<button id="new-game-button">
-				<i class="fas fa-redo"> Reset</i>
-			</button>
-		</div>
+		<button id="new-game-button">
+			<i class="fas fa-redo"></i>
+		</button>
 
 		<div id="congrats-modal">
-			<p class="modal-content">Congratulations!</p>
+			<h1 class="modal-title">Congratulations!</h1>
+			<h2 class="modal-title">Here are your game results:</h2>
 			<p id="end-time" class="modal-content"></p>
 			<p id="end-moves" class="modal-content"></p>
 			<p id="end-stars" class="modal-content"></p>
 		</div>
-
-		<div id="image-attribution">*Icons made by <a href="https://www.flaticon.com/authors/epiccoders" title="EpicCoders">EpicCoders</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 
 		<script src="./app.js">
 

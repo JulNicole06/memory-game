@@ -18,4 +18,6 @@ The displayed star rating decreases to 2 stars after 4 incorrect guesses, and 1 
 
 2. Implementation of Fisher-Yates Shuffle found [here](https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array)
 
-3. Star icons obtained using [Font Awesome](https://fontawesome.com/) icons.
+3. Star icons obtained using [Font Awesome](https://fontawesome.com/) icons
+
+4. Card icons made by [EpicCoders](https://www.flaticon.com/authors/epiccoders) with a Creative Commons license [CC 3.0 BY](http://creativecommons.org/licenses/by/3.0/)
