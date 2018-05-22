@@ -66,53 +66,60 @@ function shuffle(array){
 
 /* Game logic for matching / mismatched cards */
 let startTime, card1, card1value, card2, card2value;
+let moveComplete = true;
 
 function reveal_card() {
 	if(gameStart == true){
 		startTime = Date.now();
 		start_timer();
 	}
-
-	if(cardCount==1){
-		cardCount = cardCount + 1;
-		card1 = this;
-		card1.classList.toggle("flipped");
-		card1value = card1.firstElementChild.classList.value;
-	}
-	else if(cardCount==2){
-		cardCount = 1;
-		card2 = this;
-		card2.classList.toggle("flipped");
-		card2value = card2.firstElementChild.classList.value;
-		moves += 1;
-		moveCounter.textContent = (moves);
-		if(card1value == card2value){
-			deckCount -= 2;
-			if(deckCount == 0) {
-				end_game();
+	/* Only allow card to be flipped after previous flip is complete */
+	if(moveComplete == true){
+		prevent_reclick(this);
+		moveComplete = false;
+		if(cardCount==1){
+			cardCount = cardCount + 1;
+			card1 = this;
+			card1.classList.toggle("flipped");
+			card1value = card1.firstElementChild.classList.value;
+			moveComplete = true;
+		}
+		else if(cardCount==2){
+			cardCount = 1;
+			card2 = this;
+			card2.classList.toggle("flipped");
+			card2value = card2.firstElementChild.classList.value;
+			moves += 1;
+			moveCounter.textContent = (moves);
+			if(card1value == card2value){
+				deckCount -= 2;
+				if(deckCount == 0) {
+					end_game();
+				}
+				setTimeout(function(){
+					card1.classList.toggle("matched");
+					card2.classList.toggle("matched");
+					moveComplete = true;
+				}, 1000);
 			}
-			setTimeout(function(){
-				card1.classList.toggle("matched");
-				card2.classList.toggle("matched");
-			}, 1000);
-		}
-		else{
-			mismatch += 1;
-			return_event_listener(card1);
-			return_event_listener(card2);
-			setTimeout(function(){
-				card1.classList.toggle("mismatch");
-				card2.classList.toggle("mismatch");
-			}, 0);
-			setTimeout(function(){
-				cards.forEach(function(card){
-					card.classList.replace("mismatch", "flipped");
-				})
-				remove_star(mismatch);
-			}, 2000);
+			else{
+				mismatch += 1;
+				return_event_listener(card1);
+				return_event_listener(card2);
+				setTimeout(function(){
+					card1.classList.toggle("mismatch");
+					card2.classList.toggle("mismatch");
+				}, 0);
+				setTimeout(function(){
+					cards.forEach(function(card){
+						card.classList.replace("mismatch", "flipped");
+					})
+					remove_star(mismatch);
+					moveComplete = true;
+				}, 2000);
+			}
 		}
 	}
-	prevent_reclick(this);
 }
 
 /* Prevent card from being flipped back over on re-click */
@@ -147,10 +154,13 @@ function start_timer() {
 }
 
 /* End game and present final scores */
-let finalStars, starsRemaining, finalMoves, finalTime;
+const finalStars = document.querySelector("#end-stars");
+const finalMoves = document.querySelector("#end-moves");
+const finalTime = document.querySelector("#end-time");
+let starsRemaining;
 
 function end_game() {
-	finalStars = 3 - document.querySelectorAll(".far").length;
+	starsRemaining = 3 - document.querySelectorAll(".far").length;
 
 	/* Set timer to null to avoid automatic restart before 1st click */
 	clearInterval(timer);
@@ -161,10 +171,12 @@ function end_game() {
 	finalMoves.textContent = moves + " moves";
 	finalTime.textContent = time.textContent + " minutes";
 
-	/* Show congrats modal */
-	setTimeout(function() {
-		congratsPopup.style.display = 'block';
-	}, 2000);
+	/* Show congrats modal only when game completed */
+	if(deckCount == 0){
+		setTimeout(function() {
+			congratsPopup.style.display = 'block';
+		}, 2000);
+	};
 }
 
 /* Increment timer on a 1 second interval */
