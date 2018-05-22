@@ -1,6 +1,7 @@
 # Memory Game Project
 This is the second project for Udacity's Front-End Web Developer Nanodegree Program.  Udacity provides a starter project containing a static, non-interactive version of the game, found [here](https://github.com/udacity/fend-project-memory-game), however I chose to build this project from scratch.  The focus of this project was on Javascript mastery, as well as HTML and CSS.
 
+Play a demo game [here](https://codepen.io/PuraVida717/full/wjONLz/)
 
 ## Instructions
 Each turn consists of flipping over 2 cards by clicking on them to reveal the card images.  The goal is to match cards on each turn.
