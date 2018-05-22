@@ -97,6 +97,7 @@ h4 {
 @keyframes wrong_answer {
 	from {
 		transform: rotate(360deg)
+		-webkit-transform: rotate(360deg)
 	}
     to {
     	background-color: red;
