@@ -81,11 +81,13 @@ h4 {
 
 .icon {
 	backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
 	width: 30%;
 }
 
 .flipped {
 	transform: rotateY(180deg);
+	-webkit-transform: rotateY(180deg);
 }
 
 .matched {
