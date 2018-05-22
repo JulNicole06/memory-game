@@ -1,52 +1,48 @@
-/* Declare variables */
-let mismatch, moves, gameStart, startTime, elapsedTime,
-	endTime, minutes, seconds, cardCount, deckCount;
-let stars = document.querySelectorAll('.fa-star')
-let moveCounter = document.querySelector("#moves");
-let time = document.querySelector("#time");
-let order = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
-let card1, card1value, card2, card2value;
-let cards = document.querySelectorAll('.card');
-const newGameButton = document.querySelector('#new-game-button');
-let timer = null;
-let finalTime = document.querySelector("#end-time");
-let finalMoves = document.querySelector("#end-moves");
-let finalStars = document.querySelector("#end-stars");
-let congratsPopup = document.querySelector("#congrats-modal");
 /* Add event listeners */
+const newGameButton = document.querySelector('#new-game-button');
+const cards = document.querySelectorAll('.card');
+
 newGameButton.addEventListener("click", new_game);
 
 cards.forEach(function(card){
 		card.addEventListener("click", reveal_card);
 	});
 
-/* Start or Reset Game */
-function new_game() {
-	if (timer !== null) {
-		end_game();
-	}
+/* Start/Reset Game */
+const congratsPopup = document.querySelector("#congrats-modal");
+let stars = document.querySelectorAll('.fa-star');
+let moveCounter = document.querySelector("#moves");
+let timer = null;
+const time = document.querySelector("#time");
+let moves, gameStart, cardCount, deckCount, mismatch;
+let order = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
 
-	/* Show congrats modal */
+function new_game() {
+	/* Hide congrats pop up */
 	congratsPopup.style.display = 'none';
 
-	/* Set or Reset scoreboard */
-	gameStart = true;
-	startTime = new Date();
-	time.textContent = "00:00"
-	mismatch = 0;
-	moves = 0;
-	moveCounter.textContent = ("0");
+	/* Set/Reset scoreboard */
 	stars.forEach(function(star){
-		star.classList.replace("far", "fas")
+		star.classList.replace("far", "fas");
 	})
+	moveCounter.textContent = ("0");
+	moves = 0;
+	if(timer !== null) {
+		end_game();
+	}
+	time.textContent = "00:00";
+
+	/* Set/Reset starting game counts */
+	gameStart = true;
 	cardCount = 1;
 	deckCount = 16;
+	mismatch = 0;
 
 	/* Shuffle deck */
 	let i = 0;
-	order = shuffle(order)
+	order = shuffle(order);
 	cards.forEach(function(card) {
-		/* reset class lists for event listeners*/
+		/* Reset class lists for event listeners on reset */
 		card.setAttribute("class", "card flipped");
 		card.addEventListener("click", reveal_card);
 		card.style.order = order[i];
@@ -69,13 +65,14 @@ function shuffle(array){
 }
 
 /* Game logic for matching / mismatched cards */
+let startTime, card1, card1value, card2, card2value;
+
 function reveal_card() {
 	if(gameStart == true){
 		startTime = Date.now();
 		start_timer();
 	}
 
-	prevent_reclick(this);
 	if(cardCount==1){
 		cardCount = cardCount + 1;
 		card1 = this;
@@ -115,19 +112,22 @@ function reveal_card() {
 			}, 2000);
 		}
 	}
+	prevent_reclick(this);
 }
 
-function prevent_reclick(card){
+/* Prevent card from being flipped back over on re-click */
+function prevent_reclick(card) {
 	card.removeEventListener("click", reveal_card);
 }
 
-function return_event_listener(card){
+/* Return listeners once full turn is complete */
+function return_event_listener(card) {
 	card.addEventListener("click", reveal_card);
 }
 
+/* Remove a star after multiple wrong moves */
 function remove_star(mismatch) {
 	let index, star;
-
 	if(mismatch==4){
 		index = 2;
 	}else if(mismatch==10){
@@ -139,26 +139,27 @@ function remove_star(mismatch) {
 	star.classList.replace("fas", "far");
 }
 
+/* Start game timer */
 function start_timer() {
 	gameStart = false;
 	timer = setInterval(add_second, 1000);
 	startTime = new Date();
 }
 
+/* End game and present final scores */
+let finalStars, starsRemaining, finalMoves, finalTime;
+
 function end_game() {
-	let starsRemaining = 3 - document.querySelectorAll(".far").length;
-	let time = document.querySelector("#timer").textContent;
+	finalStars = 3 - document.querySelectorAll(".far").length;
 
 	/* Set timer to null to avoid automatic restart before 1st click */
 	clearInterval(timer);
 	timer = null;
 
 	/* Fill in results on congrats modal */
-	finalTime.textContent = time + " minutes";
-
-	finalMoves.textContent = moves + " moves";
-
 	finalStars.textContent = starsRemaining + " stars";
+	finalMoves.textContent = moves + " moves";
+	finalTime.textContent = time.textContent + " minutes";
 
 	/* Show congrats modal */
 	setTimeout(function() {
@@ -166,11 +167,17 @@ function end_game() {
 	}, 2000);
 }
 
+/* Increment timer on a 1 second interval */
+let endTime, elapsedTime
+
 function add_second() {
 	endTime = new Date();
 	elapsedTime = (endTime - startTime);
 	time.textContent = format_time(elapsedTime);
 }
+
+/* Format minutes/seconds into mm:ss format */
+let minutes, seconds;
 
 function format_time(elapsedTime) {
 	minutes = new Date(elapsedTime).getUTCMinutes();
@@ -178,6 +185,7 @@ function format_time(elapsedTime) {
 	return add_zero(minutes)+":"+add_zero(seconds);
 }
 
+/* Format numbers less than 10 with leading zero */
 function add_zero(number) {
 	if(number < 10){
 		number = "0"+number;
